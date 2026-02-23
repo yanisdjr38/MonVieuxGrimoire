@@ -1,11 +1,16 @@
 const Book = require('../models/Book');
+const fs = require('fs');
 
 // Create and Save a new Book
 
 exports.createBook = (req, res) => {
+  const Bookobject = JSON.parse(req.body.book);
+  delete Bookobject._id;
+  delete Bookobject._userId;
   const book = new Book({
+    ...Bookobject,
     userId: req.auth.userId,
-    ...req.body,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
   book
     .save()
@@ -22,22 +27,28 @@ exports.createBook = (req, res) => {
 };
 // Update a Book identified by the id in the request
 exports.updateBook = (req, res) => {
-  const book = new Book({
-    _id: req.params.id,
-    userId: req.auth.userId,
-    ...req.body,
-  });
-
-  Book.updateOne({ _id: req.params.id }, book)
-    .then(() => {
-      res.status(200).json({
-        message: 'Book updated successfully!',
-      });
+  const Bookobject = req.file
+    ? {
+        ...JSON.parse(req.body.book),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      }
+    : { ...req.body };
+  delete Bookobject._userId;
+  Book.findOne({ _id: req.params.id })
+    .then((book) => {
+      if (book.userId !== req.auth.userId) {
+        res.status(401).json({ message: 'Not authorized' });
+      } else {
+        Book.updateOne(
+          { _id: req.params.id },
+          { ...Bookobject, _id: req.params.id },
+        )
+          .then(() => res.status(200).json({ message: 'Book updated!' }))
+          .catch((error) => res.status(400).json({ error }));
+      }
     })
     .catch((error) => {
-      res.status(400).json({
-        error,
-      });
+      res.status(400).json({ error });
     });
 };
 // Find a single Book with an id
@@ -56,14 +67,21 @@ exports.findBookbyID = (req, res) => {
 };
 // Delete a Book with the specified id in the request
 exports.deleteBook = (req, res) => {
-  Book.deleteOne({ _id: req.params.id })
-    .then(() => {
-      res.status(200).json({
-        message: 'Deleted!',
-      });
+  Book.findOne({ _id: req.params.id })
+    .then((book) => {
+      if (book.userId !== req.auth.userId) {
+        res.status(401).json({ message: 'Not authorized' });
+      } else {
+        const filename = book.imageUrl.split('/images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          Book.deleteOne({ _id: req.params.id })
+            .then(() => res.status(200).json({ message: 'Book deleted!' }))
+            .catch((error) => res.status(400).json({ error }));
+        });
+      }
     })
     .catch((error) => {
-      res.status(400).json({
+      res.status(500).json({
         error,
       });
     });
