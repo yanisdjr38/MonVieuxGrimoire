@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 exports.signup = (req, res) => {
@@ -36,7 +37,9 @@ exports.login = (req, res) => {
           return res.status(200).json({
             // eslint-disable-next-line no-underscore-dangle
             userId: user._id,
-            token: 'TOKEN',
+            token: jwt.sign({ userId: user.id }, 'RANDOM_TOKEN_SECRET', {
+              expiresIn: '24h',
+            }),
           });
         })
         .catch((error) => res.status(500).json({ error }));
