@@ -98,3 +98,48 @@ exports.getAllBooks = (req, res) => {
       });
     });
 };
+
+// Get top 3 best rated Books
+exports.getTop3Books = (req, res) => {
+  Book.find()
+    .sort({ averageRating: -1 })
+    .limit(3)
+    .then((books) => {
+      res.status(200).json(books);
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
+    });
+};
+
+// Rating a Book
+exports.rateBook = (req, res) => {
+  if (!req.body.rating || req.body.rating < 0 || req.body.rating > 5) {
+    return res.status(400).json({ error: 'Rating must be between 0 and 5' });
+  }
+
+  Book.findOne({ _id: req.params.id })
+    .then((book) => {
+      const existingRating = book.ratings.find(
+        (r) => r.userId === req.auth.userId,
+      );
+      if (existingRating) {
+        return res
+          .status(401)
+          .json({ message: 'User already rated this book' });
+      }
+      book.ratings.push({
+        userId: req.auth.userId,
+        grade: req.body.rating,
+      });
+
+      const totalRating = book.ratings.reduce((acc, r) => acc + r.grade, 0);
+      book.averageRating =
+        Math.round((totalRating / book.ratings.length) * 10) / 10;
+
+      return book.save().then(() => res.status(200).json(book));
+    })
+    .catch((error) => {
+      res.status(400).json({ error });
+    });
+};
