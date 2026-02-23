@@ -4,6 +4,7 @@ const Book = require('../models/Book');
 
 exports.createBook = (req, res) => {
   const book = new Book({
+    userId: req.auth.userId,
     ...req.body,
   });
   book
@@ -23,6 +24,7 @@ exports.createBook = (req, res) => {
 exports.updateBook = (req, res) => {
   const book = new Book({
     _id: req.params.id,
+    userId: req.auth.userId,
     ...req.body,
   });
 

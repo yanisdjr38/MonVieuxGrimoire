@@ -7,16 +7,6 @@ const userRoutes = require('./routes/user');
 const app = express();
 
 // Middleware
-
-app.use(express.json());
-app.use(bodyParser.json());
-app.use('/api/stuff', stuffRoutes);
-app.use('/api/auth', userRoutes);
-
-mongoose.connect(
-  'mongodb+srv://datauser1:user1234@cluster0.fmuonpl.mongodb.net/?appName=Cluster0',
-);
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -29,5 +19,11 @@ app.use((req, res, next) => {
   );
   next();
 });
+
+app.use(express.json());
+app.use(bodyParser.json());
+app.use('/api/stuff', stuffRoutes);
+app.use('/api/books', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 module.exports = app;

@@ -3,6 +3,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 exports.signup = (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    return res.status(400).json({ error: 'Email and password required' });
+  }
+
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -10,12 +14,18 @@ exports.signup = (req, res) => {
         email: req.body.email,
         password: hash,
       });
-      user
+      return user
         .save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch((error) => res.status(400).json({ error }));
+        .catch((error) => {
+          console.log('Signup error:', error);
+          res.status(400).json({ error });
+        });
     })
-    .catch((error) => res.status(500).json({ error }));
+    .catch((error) => {
+      console.log('Hash error:', error);
+      res.status(500).json({ error });
+    });
 };
 
 exports.login = (req, res) => {
@@ -37,7 +47,7 @@ exports.login = (req, res) => {
           return res.status(200).json({
             // eslint-disable-next-line no-underscore-dangle
             userId: user._id,
-            token: jwt.sign({ userId: user.id }, 'RANDOM_TOKEN_SECRET', {
+            token: jwt.sign({ userId: user._id }, 'RANDOM_TOKEN_SECRET', {
               expiresIn: '24h',
             }),
           });
