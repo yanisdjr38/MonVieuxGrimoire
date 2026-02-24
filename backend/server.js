@@ -2,6 +2,7 @@
 const http = require('http');
 const mongoose = require('mongoose');
 const app = require('./app');
+require('dotenv').config();
 // Fonction pour normaliser le port d'écoute du serveur
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
@@ -49,9 +50,7 @@ server.on('listening', () => {
 });
 // Connexion à MongoDB en utilisant Mongoose et démarrage du serveur HTTP une fois la connexion établie
 mongoose
-  .connect(
-    'mongodb+srv://datauser1:user1234@cluster0.fmuonpl.mongodb.net/?appName=Cluster0',
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     server.listen(port);
