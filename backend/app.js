@@ -1,10 +1,11 @@
+// Importation des modules nécessaires
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
-
+// Importation de express et création de l'application
 const app = express();
 
 // Middleware
@@ -20,7 +21,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+// Ccreation des chemins d'accès à la base de données
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/stuff', stuffRoutes);

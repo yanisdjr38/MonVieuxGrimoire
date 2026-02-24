@@ -9,19 +9,19 @@ const stuffCtrl = require('../controllers/stuff');
 const auth = require('../middleware/auth');
 
 const multer = require('../middleware/multer-config');
-// Get all Books
+// Afficher tous les livres
 router.get('/', stuffCtrl.getAllBooks);
-// Get top 3 best rated Books
+// Avoir les 3 livres les mieux notés
 router.get('/bestrating', stuffCtrl.getTop3Books);
-// Create a new Book
+// Créer un livre
 router.post('/', auth, multer, stuffCtrl.createBook);
-// Get a single Book with an id
+// Afficher un livre avec son id
 router.get('/:id', stuffCtrl.findBookbyID);
-// Put a rating for a Book
+// Noter un livre
 router.post('/:id/rating', auth, stuffCtrl.rateBook);
-// Update a Book with id
+// Modification d'un livre avec son id
 router.put('/:id', auth, multer, stuffCtrl.updateBook);
-// Delete a Book with id
+// Supprimer un livre avec son id
 router.delete('/:id', auth, stuffCtrl.deleteBook);
 
 module.exports = router;

@@ -1,10 +1,11 @@
+// Importation des modules nécessaires
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
+// Créer et enregistrer un utilisateur dans la base de données
 exports.signup = (req, res) => {
   if (!req.body.email || !req.body.password) {
-    return res.status(400).json({ error: 'Email and password required' });
+    return res.status(400).json({ error: 'Email et mot de passe requis' });
   }
 
   bcrypt
@@ -27,7 +28,7 @@ exports.signup = (req, res) => {
       res.status(500).json({ error });
     });
 };
-
+// Authentifier un utilisateur et lui fournir un token d'accès
 exports.login = (req, res) => {
   User.findOne({ email: req.body.email })
     .then((user) => {

@@ -1,5 +1,6 @@
+// Importation du module jsonwebtoken pour la gestion des tokens d'authentification
 const jwt = require('jsonwebtoken');
-
+// Middleware d'authentification pour vérifier le token d'accès dans les requêtes entrantes
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
