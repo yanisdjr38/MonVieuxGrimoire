@@ -51,7 +51,7 @@ exports.updateBook = (req, res) => {
       res.status(400).json({ error });
     });
 };
-// Find a single Book with an id
+// Récupérer un livre avec son id
 exports.findBookbyID = (req, res) => {
   Book.findOne({
     _id: req.params.id,
@@ -101,11 +101,12 @@ exports.getAllBooks = (req, res) => {
 
 // Récupérer les 3 livres les mieux notés
 exports.getTop3Books = (req, res) => {
-  Book.find()
-    .sort({ averageRating: -1 })
-    .limit(3)
+  Book.find() //  Récupère TOUS les livres
+    .sort({ averageRating: -1 }) // Trie les livres par note moyenne décroissante
+    .limit(3) // Limite le résultat aux 3 premiers livres
     .then((books) => {
-      res.status(200).json(books);
+      // Envoie les livres triés et limités au client
+      res.status(200).json(books); // Envoie les livres triés et limités au client
     })
     .catch((error) => {
       res.status(400).json({ error });
@@ -114,6 +115,7 @@ exports.getTop3Books = (req, res) => {
 
 // Evaluation du livre
 exports.rateBook = (req, res) => {
+  // Vérification : note entre 0 et 5
   if (!req.body.rating || req.body.rating < 0 || req.body.rating > 5) {
     return res
       .status(400)
@@ -121,6 +123,7 @@ exports.rateBook = (req, res) => {
   }
 
   Book.findOne({ _id: req.params.id })
+    // Vérifie si le livre existe et si l'utilisateur a déjà noté ce livre
     .then((book) => {
       const existingRating = book.ratings.find(
         (r) => r.userId === req.auth.userId,
@@ -130,15 +133,16 @@ exports.rateBook = (req, res) => {
           .status(401)
           .json({ message: "L'utilisateur a déjà noté ce livre" });
       }
+      // Ajoute la nouvelle note à la liste des notes du livre
       book.ratings.push({
         userId: req.auth.userId,
         grade: req.body.rating,
       });
-
+      // Calcule la nouvelle note moyenne du livre
       const totalRating = book.ratings.reduce((acc, r) => acc + r.grade, 0);
       book.averageRating =
         Math.round((totalRating / book.ratings.length) * 10) / 10;
-
+      // Enregistre le livre mis à jour dans la base de données
       return book.save().then(() => res.status(200).json(book));
     })
     .catch((error) => {
