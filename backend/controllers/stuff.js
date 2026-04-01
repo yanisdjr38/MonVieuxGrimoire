@@ -4,11 +4,13 @@ const fs = require('fs');
 // Créer et enregistrer un livre dans la base de données
 
 exports.createBook = (req, res) => {
-  const Bookobject = JSON.parse(req.body.book);
-  delete Bookobject._id;
-  delete Bookobject._userId;
+  if (!req.file) {
+    return res.status(400).json({ error: 'Image requise' });
+  }
+  const bookObject = JSON.parse(req.body.book);
+  delete bookObject._id;
   const book = new Book({
-    ...Bookobject,
+    ...bookObject,
     userId: req.auth.userId,
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
@@ -27,21 +29,20 @@ exports.createBook = (req, res) => {
 };
 // Modification d'un livre avec son id
 exports.updateBook = (req, res) => {
-  const Bookobject = req.file
+  const bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       }
     : { ...req.body };
-  delete Bookobject._userId;
   Book.findOne({ _id: req.params.id })
     .then((book) => {
       if (book.userId !== req.auth.userId) {
-        res.status(401).json({ message: 'Non autorisé' });
+        return res.status(401).json({ message: 'Non autorisé' });
       } else {
         Book.updateOne(
           { _id: req.params.id },
-          { ...Bookobject, _id: req.params.id },
+          { ...bookObject, _id: req.params.id },
         )
           .then(() => res.status(200).json({ message: 'Livre mis à jour !' }))
           .catch((error) => res.status(400).json({ error }));
@@ -70,7 +71,7 @@ exports.deleteBook = (req, res) => {
   Book.findOne({ _id: req.params.id })
     .then((book) => {
       if (book.userId !== req.auth.userId) {
-        res.status(401).json({ message: 'Non autorisé' });
+        return res.status(401).json({ message: 'Non autorisé' });
       } else {
         const filename = book.imageUrl.split('/images/')[1];
         fs.unlink(`images/${filename}`, () => {

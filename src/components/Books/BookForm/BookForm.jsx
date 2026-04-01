@@ -1,29 +1,40 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React from 'react';
 import * as PropTypes from 'prop-types';
+import { useEffect, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { generateStarsInputs } from '../../../lib/functions';
-import { useFilePreview } from '../../../lib/customHooks';
 import addFileIMG from '../../../images/add_file.png';
+import { addBook, updateBook } from '../../../lib/common';
+import { useFilePreview } from '../../../lib/customHooks';
+import { generateStarsInputs } from '../../../lib/functions';
 import styles from './BookForm.module.css';
-import { updateBook, addBook } from '../../../lib/common';
 
 function BookForm({ book, validate }) {
-  const userRating = book ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade : 0;
+  const userRating = book
+    ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))
+      ?.grade
+    : 0;
 
   const [rating, setRating] = useState(0);
 
   const navigate = useNavigate();
   const {
-    register, watch, formState, handleSubmit, reset,
+    register,
+    watch,
+    formState,
+    handleSubmit,
+    reset,
   } = useForm({
-    defaultValues: useMemo(() => ({
-      title: book?.title,
-      author: book?.author,
-      year: book?.year,
-      genre: book?.genre,
-    }), [book]),
+    defaultValues: useMemo(
+      () => ({
+        title: book?.title,
+        author: book?.author,
+        year: book?.year,
+        genre: book?.genre,
+      }),
+      [book],
+    ),
   });
   useEffect(() => {
     reset(book);
@@ -90,12 +101,12 @@ function BookForm({ book, validate }) {
         <p>Genre</p>
         <input type="text" id="genre" {...register('genre')} />
       </label>
-      <label htmlFor="rate">
+      <div>
         <p>Note</p>
         <div className={styles.Stars}>
           {generateStarsInputs(rating, register, readOnlyStars)}
         </div>
-      </label>
+      </div>
       <label htmlFor="file">
         <p>Visuel</p>
         <div className={styles.AddImage}>
@@ -110,7 +121,6 @@ function BookForm({ book, validate }) {
               <p>Ajouter une image</p>
             </>
           )}
-
         </div>
         <input {...register('file')} type="file" id="file" />
       </label>
@@ -129,10 +139,12 @@ BookForm.propTypes = {
     year: PropTypes.number,
     imageUrl: PropTypes.string,
     genre: PropTypes.string,
-    ratings: PropTypes.arrayOf(PropTypes.shape({
-      userId: PropTypes.string,
-      grade: PropTypes.number,
-    })),
+    ratings: PropTypes.arrayOf(
+      PropTypes.shape({
+        userId: PropTypes.string,
+        grade: PropTypes.number,
+      }),
+    ),
     averageRating: PropTypes.number,
   }),
   validate: PropTypes.func,

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import * as PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
-import { useUser } from '../../lib/customHooks';
-import { storeInLocalStorage } from '../../lib/common';
 import { ReactComponent as Logo } from '../../images/Logo.svg';
+import { storeInLocalStorage } from '../../lib/common';
+import { useUser } from '../../lib/customHooks';
+import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
 import styles from './SignIn.module.css';
 
 function SignIn({ setUser }) {
@@ -18,7 +19,10 @@ function SignIn({ setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [notification, setNotification] = useState({ error: false, message: '' });
+  const [notification, setNotification] = useState({
+    error: false,
+    message: '',
+  });
   const signIn = async () => {
     try {
       setIsLoading(true);
@@ -62,7 +66,10 @@ function SignIn({ setUser }) {
         console.log('Something went wrong during signing up: ', response);
         return;
       }
-      setNotification({ error: false, message: 'Votre compte a bien été créé, vous pouvez vous connecter' });
+      setNotification({
+        error: false,
+        message: 'Votre compte a bien été créé, vous pouvez vous connecter',
+      });
     } catch (err) {
       setNotification({ error: true, message: err.message });
       console.log('Some error occured during signing up: ', err);
@@ -78,7 +85,7 @@ function SignIn({ setUser }) {
         {notification.message.length > 0 && <p>{notification.message}</p>}
       </div>
       <div className={styles.Form}>
-        <label htmlFor={email}>
+        <label htmlFor="email">
           <p>Adresse email</p>
           <input
             className=""
@@ -86,7 +93,9 @@ function SignIn({ setUser }) {
             name="email"
             id="email"
             value={email}
-            onChange={(e) => { setEmail(e.target.value); }}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
         </label>
         <label htmlFor="password">
@@ -97,7 +106,9 @@ function SignIn({ setUser }) {
             name="password"
             id="password"
             value={password}
-            onChange={(e) => { setPassword(e.target.value); }}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
         </label>
         <div className={styles.Submit}>
@@ -110,9 +121,7 @@ function SignIn({ setUser }) {
             onClick={signIn}
           >
             {isLoading ? <div className="" /> : null}
-            <span>
-              Se connecter
-            </span>
+            <span>Se connecter</span>
           </button>
           <span>OU</span>
           <button
@@ -123,16 +132,12 @@ function SignIn({ setUser }) {
             bg-gray-800  text-white hover:bg-gray-800"
             onClick={signUp}
           >
-            {
-                isLoading
-                  ? <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" /> : null
-              }
-            <span>
-              {'S\'inscrire'}
-            </span>
+            {isLoading ? (
+              <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" />
+            ) : null}
+            <span>S&apos;inscrire</span>
           </button>
         </div>
-
       </div>
     </div>
   );
