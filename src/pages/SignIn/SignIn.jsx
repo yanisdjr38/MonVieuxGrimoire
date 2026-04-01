@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import * as PropTypes from 'prop-types';
 import { useState } from 'react';
