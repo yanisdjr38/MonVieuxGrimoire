@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+// Importation du module fs pour la gestion des fichiers
 const fs = require('fs');
 
 // Créer et enregistrer un livre dans la base de données

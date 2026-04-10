@@ -25,7 +25,9 @@ const errorHandler = (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
+  // Récupération de l'adresse du serveur pour afficher un message d'erreur approprié
   const address = server.address();
+  // Détermination du type de liaison (pipe ou port) pour afficher un message d'erreur approprié
   const bind =
     typeof address === 'string' ? `pipe ${address}` : `port: ${port}`;
   switch (error.code) {
@@ -44,7 +46,9 @@ const errorHandler = (error) => {
 // Configuration des événements du serveur pour gérer les erreurs et afficher un message lorsque le serveur est en écoute
 server.on('error', errorHandler);
 server.on('listening', () => {
+  // Récupération de l'adresse du serveur pour afficher un message de confirmation que le serveur est en écoute
   const address = server.address();
+  // Détermination du type de liaison (pipe ou port) pour afficher un message de confirmation que le serveur est en écoute
   const bind = typeof address === 'string' ? `pipe ${address}` : `port ${port}`;
   console.log(`Listening on ${bind}`);
 });
@@ -59,3 +63,7 @@ mongoose
     console.error('Failed to connect to MongoDB:', error);
     process.exit(1);
   });
+
+//Les projets Node sont initialisés avec la commande  npm init  .
+//Un serveur Node basique est démarré avec la méthode  createServer  du package  http  .
+//Nodemon est un package qui mettra à jour votre serveur démarré à chaque changement de fichier, vous facilitant le développement Node.

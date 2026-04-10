@@ -7,8 +7,7 @@ const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
 // Importation de express et création de l'application
 const app = express();
-
-// Middleware
+// Configuration des en-têtes CORS pour permettre les requêtes depuis n'importe quelle origine et définir les méthodes HTTP autorisées
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -22,6 +21,7 @@ app.use((req, res, next) => {
   next();
 });
 // Ccreation des chemins d'accès à la base de données
+// Configuration de l'application pour utiliser le middleware body-parser pour analyser les corps de requêtes JSON et les routes définies dans les fichiers de routes
 app.use(express.json());
 app.use(bodyParser.json());
 app.use('/api/stuff', stuffRoutes);

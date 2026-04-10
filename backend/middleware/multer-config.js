@@ -7,10 +7,12 @@ const MIME_TYPES = {
   'image/png': 'png',
 };
 // Configuration du stockage pour multer
+// Le champ 'destination' définit le dossier où les fichiers seront enregistrés
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');
   },
+  // Le champ 'filename' définit le nom du fichier enregistré, en utilisant le nom d'origine et un timestamp pour garantir l'unicité
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
