@@ -22,7 +22,20 @@ function SignIn({ setUser }) {
     error: false,
     message: '',
   });
+
+  const isValidEmail = (emailValue) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailValue);
+  };
+
   const signIn = async () => {
+    if (!isValidEmail(email)) {
+      setNotification({
+        error: true,
+        message: 'Veuillez entrer une adresse email valide',
+      });
+      return;
+    }
     try {
       setIsLoading(true);
       const response = await axios({
@@ -35,7 +48,10 @@ function SignIn({ setUser }) {
       });
       if (!response?.data?.token) {
         setNotification({ error: true, message: 'Une erreur est survenue' });
-        console.log('Something went wrong during signing in: ', response);
+        console.log(
+          "Quelque chose s'est mal passé lors de la connexion: ",
+          response,
+        );
       } else {
         storeInLocalStorage(response.data.token, response.data.userId);
         setUser(response.data);
@@ -43,14 +59,24 @@ function SignIn({ setUser }) {
       }
     } catch (err) {
       console.log(err);
-      setNotification({ error: true, message: err.message });
-      console.log('Some error occured during signing in: ', err);
+      setNotification({
+        error: true,
+        message: 'Email ou mot de passe incorrect',
+      });
+      console.log("Quelque chose s'est mal passé lors de la connexion: ", err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const signUp = async () => {
+    if (!isValidEmail(email)) {
+      setNotification({
+        error: true,
+        message: 'Veuillez entrer une adresse email valide',
+      });
+      return;
+    }
     try {
       setIsLoading(true);
       const response = await axios({
@@ -62,7 +88,10 @@ function SignIn({ setUser }) {
         },
       });
       if (!response?.data) {
-        console.log('Something went wrong during signing up: ', response);
+        console.log(
+          "Quelque chose s'est mal passé lors de l'inscription: ",
+          response,
+        );
         return;
       }
       setNotification({
@@ -70,8 +99,11 @@ function SignIn({ setUser }) {
         message: 'Votre compte a bien été créé, vous pouvez vous connecter',
       });
     } catch (err) {
-      setNotification({ error: true, message: err.message });
-      console.log('Some error occured during signing up: ', err);
+      setNotification({
+        error: true,
+        message: "Une erreur est survenue lors de l'inscription",
+      });
+      console.log("Quelque chose s'est mal passé lors de l'inscription: ", err);
     } finally {
       setIsLoading(false);
     }
