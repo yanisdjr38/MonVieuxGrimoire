@@ -1,4 +1,4 @@
-const API_URL = 'http://monvieuxgrimoire.railway.internal:4000';
+const API_URL = 'https://monvieuxgrimoire-production-9a65.up.railway.app:4000';
 export const API_ROUTES = {
   SIGN_UP: `${API_URL}/api/auth/signup`,
   SIGN_IN: `${API_URL}/api/auth/login`,
