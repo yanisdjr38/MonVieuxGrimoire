@@ -1,6 +1,15 @@
 const Book = require('../models/Book');
 // Importation du module fs pour la gestion des fichiers
 const fs = require('fs');
+const cloudinary = require('cloudinary').v2;
+require('dotenv').config();
+
+// Configuration de Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // Créer et enregistrer un livre dans la base de données
 
@@ -10,11 +19,10 @@ exports.createBook = (req, res) => {
   }
   const bookObject = JSON.parse(req.body.book);
   delete bookObject._id;
-  const protocol = req.get('x-forwarded-proto') || req.protocol;
   const book = new Book({
     ...bookObject,
     userId: req.auth.userId,
-    imageUrl: `${protocol}://${req.get('host')}/images/${req.file.filename}`,
+    imageUrl: req.file.path,
   });
   book
     .save()
@@ -31,11 +39,10 @@ exports.createBook = (req, res) => {
 };
 // Modification d'un livre avec son id
 exports.updateBook = (req, res) => {
-  const protocol = req.get('x-forwarded-proto') || req.protocol;
   const bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
-        imageUrl: `${protocol}://${req.get('host')}/images/${req.file.filename}`,
+        imageUrl: req.file.path,
       }
     : { ...req.body };
   Book.findOne({ _id: req.params.id })
@@ -76,8 +83,12 @@ exports.deleteBook = (req, res) => {
       if (book.userId !== req.auth.userId) {
         return res.status(401).json({ message: 'Non autorisé' });
       } else {
-        const filename = book.imageUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
+        // Extraire le public_id de l'URL Cloudinary
+        const publicId = book.imageUrl.split('/').slice(-1)[0].split('.')[0];
+        const cloudinaryPublicId = `monvieuxgrimoire/books/${publicId}`;
+
+        // Supprimer l'image de Cloudinary
+        cloudinary.uploader.destroy(cloudinaryPublicId, () => {
           Book.deleteOne({ _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Livre supprimé !' }))
             .catch((error) => res.status(400).json({ error }));

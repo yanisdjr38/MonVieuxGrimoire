@@ -9,7 +9,14 @@ const userRoutes = require('./routes/user');
 const app = express();
 // Configuration des en-têtes CORS pour permettre les requêtes depuis n'importe quelle origine et définir les méthodes HTTP autorisées
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://mon-vieux-grimoire-yd.netlify.app',
+  ];
+  const origin = req.get('origin');
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization',
