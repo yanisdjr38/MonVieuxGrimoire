@@ -1,12 +1,12 @@
 FROM node:19
 
-WORKDIR /app
+WORKDIR /app/backend
 
-COPY package.json .
+COPY backend/package.json .
 
 RUN npm install
 
-COPY . .
+COPY backend/ .
 
 EXPOSE 3000
 
