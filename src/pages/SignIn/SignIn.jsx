@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../images/Logo.svg';
 import { storeInLocalStorage } from '../../lib/common';
