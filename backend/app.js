@@ -24,8 +24,20 @@ app.use((req, res, next) => {
 // Configuration de l'application pour utiliser le middleware body-parser pour analyser les corps de requêtes JSON et les routes définies dans les fichiers de routes
 app.use(express.json());
 app.use(bodyParser.json());
+
+// Route de vérification du serveur
+app.get('/', (req, res) => {
+  res.json({ message: 'Serveur en ligne' });
+});
+
 app.use('/api/stuff', stuffRoutes);
 app.use('/api/books', stuffRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
+// Gestion des routes non trouvées
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
 module.exports = app;
