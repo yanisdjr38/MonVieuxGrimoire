@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useMemo, useState } from 'react';
 import * as PropTypes from 'prop-types';
-import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import addFileIMG from '../../../images/add_file.png';
@@ -11,14 +11,19 @@ import styles from './BookForm.module.css';
 
 function BookForm({ book, validate }) {
   const userRating = book
-    ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))
-        ?.grade
+    ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade
     : 0;
 
   const [rating, setRating] = useState(0);
 
   const navigate = useNavigate();
-  const { register, watch, formState, handleSubmit, reset } = useForm({
+  const {
+    register,
+    watch,
+    formState,
+    handleSubmit,
+    reset,
+  } = useForm({
     defaultValues: useMemo(
       () => ({
         title: book?.title,

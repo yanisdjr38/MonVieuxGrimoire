@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import BookItem from '../../components/Books/BookItem/BookItem';
 import Banner from '../../images/home_banner.jpg';
@@ -9,12 +9,13 @@ function Home() {
   const [books, setBooks] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const displayBooks = () =>
+  const displayBooks = () => (
     books ? (
       books.map((book) => <BookItem size={2} book={book} key={book.id} />)
     ) : (
       <h1>Vide</h1>
-    );
+    )
+  );
 
   useEffect(() => {
     async function getBooksList() {
