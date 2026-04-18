@@ -10,10 +10,11 @@ exports.createBook = (req, res) => {
   }
   const bookObject = JSON.parse(req.body.book);
   delete bookObject._id;
+  const protocol = req.get('x-forwarded-proto') || req.protocol;
   const book = new Book({
     ...bookObject,
     userId: req.auth.userId,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+    imageUrl: `${protocol}://${req.get('host')}/images/${req.file.filename}`,
   });
   book
     .save()
@@ -30,10 +31,11 @@ exports.createBook = (req, res) => {
 };
 // Modification d'un livre avec son id
 exports.updateBook = (req, res) => {
+  const protocol = req.get('x-forwarded-proto') || req.protocol;
   const bookObject = req.file
     ? {
         ...JSON.parse(req.body.book),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        imageUrl: `${protocol}://${req.get('host')}/images/${req.file.filename}`,
       }
     : { ...req.body };
   Book.findOne({ _id: req.params.id })
