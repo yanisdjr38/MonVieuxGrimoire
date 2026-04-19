@@ -17,6 +17,10 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'monvieuxgrimoire/books',
     resource_type: 'auto',
+    secure: true,
+    type: 'upload',
+    format: 'webp',
+    quality: 'auto',
   },
 });
 
