@@ -9,6 +9,13 @@
 .Header div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.Header img {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
 }
 
 .Header p {
@@ -40,8 +47,10 @@
   }
 
   .Header img {
-    margin-top: 20px;
-    width: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    margin-right: 0;
   }
 
   .Header ul li {
