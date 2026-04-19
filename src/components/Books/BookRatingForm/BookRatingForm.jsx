@@ -8,9 +8,7 @@ import { APP_ROUTES } from '../../../utils/constants';
 import { useUser } from '../../../lib/customHooks';
 import { rateBook } from '../../../lib/common';
 
-function BookRatingForm({
-  rating, setRating, userId, setBook, id, userRated,
-}) {
+function BookRatingForm({ rating, setRating, userId, setBook, id, userRated }) {
   const { connectedUser, auth } = useUser();
   const navigate = useNavigate();
   const { register, formState, handleSubmit } = useForm({

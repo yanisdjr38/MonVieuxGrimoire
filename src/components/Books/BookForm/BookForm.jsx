@@ -11,8 +11,7 @@ import styles from './BookForm.module.css';
 
 function BookForm({ book, validate }) {
   const userRating = book
-    ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))
-        ?.grade
+    ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade
     : 0;
 
   const [rating, setRating] = useState(0);
@@ -26,7 +25,7 @@ function BookForm({ book, validate }) {
         year: book?.year,
         genre: book?.genre,
       }),
-      [book],
+      [book]
     ),
   });
   useEffect(() => {
@@ -96,9 +95,7 @@ function BookForm({ book, validate }) {
       </label>
       <div>
         <p>Note</p>
-        <div className={styles.Stars}>
-          {generateStarsInputs(rating, register, readOnlyStars)}
-        </div>
+        <div className={styles.Stars}>{generateStarsInputs(rating, register, readOnlyStars)}</div>
       </div>
       <label htmlFor="file">
         <p>Visuel</p>
@@ -136,7 +133,7 @@ BookForm.propTypes = {
       PropTypes.shape({
         userId: PropTypes.string,
         grade: PropTypes.number,
-      }),
+      })
     ),
     averageRating: PropTypes.number,
   }),

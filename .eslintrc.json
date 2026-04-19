@@ -3,7 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "airbnb"],
+  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -12,7 +12,7 @@
       "jsx": true
     }
   },
-  "plugins": ["react"],
+  "plugins": ["react", "prettier"],
   "settings": {
     "react": {
       "version": "detect"
@@ -25,6 +25,8 @@
     "no-confusing-arrow": "off",
     "implicit-arrow-linebreak": "off",
     "no-alert": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "react/jsx-curly-newline": "off",
+    "prettier/prettier": "warn"
   }
 }

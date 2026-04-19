@@ -21,9 +21,7 @@ function Header({ user, setUser }) {
             <NavLink
               to="/"
               end
-              className={({ isActive }) =>
-                isActive ? styles.activeLink : undefined
-              }
+              className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
             >
               Accueil
             </NavLink>
@@ -31,9 +29,7 @@ function Header({ user, setUser }) {
           <li>
             <NavLink
               to="/Ajouter"
-              className={({ isActive }) =>
-                isActive ? styles.activeLink : undefined
-              }
+              className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
             >
               Ajouter un livre
             </NavLink>
@@ -42,19 +38,12 @@ function Header({ user, setUser }) {
             {!user ? (
               <NavLink
                 to="/Connexion"
-                className={({ isActive }) =>
-                  isActive ? styles.activeLink : undefined
-                }
+                className={({ isActive }) => (isActive ? styles.activeLink : undefined)}
               >
                 Se connecter
               </NavLink>
             ) : (
-              <span
-                tabIndex={0}
-                role="button"
-                onKeyUp={disconnect}
-                onClick={disconnect}
-              >
+              <span tabIndex={0} role="button" onKeyUp={disconnect} onClick={disconnect}>
                 Se déconnecter
               </span>
             )}

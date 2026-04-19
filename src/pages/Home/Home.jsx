@@ -10,11 +10,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const displayBooks = () =>
-    books ? (
-      books.map((book) => <BookItem size={2} book={book} key={book.id} />)
-    ) : (
-      <h1>Vide</h1>
-    );
+    books ? books.map((book) => <BookItem size={2} book={book} key={book.id} />) : <h1>Vide</h1>;
 
   useEffect(() => {
     async function getBooksList() {

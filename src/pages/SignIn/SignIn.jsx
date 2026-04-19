@@ -48,10 +48,7 @@ function SignIn({ setUser }) {
       });
       if (!response?.data?.token) {
         setNotification({ error: true, message: 'Une erreur est survenue' });
-        console.log(
-          "Quelque chose s'est mal passé lors de la connexion: ",
-          response,
-        );
+        console.log("Quelque chose s'est mal passé lors de la connexion: ", response);
       } else {
         storeInLocalStorage(response.data.token, response.data.userId);
         setUser(response.data);
@@ -88,10 +85,7 @@ function SignIn({ setUser }) {
         },
       });
       if (!response?.data) {
-        console.log(
-          "Quelque chose s'est mal passé lors de l'inscription: ",
-          response,
-        );
+        console.log("Quelque chose s'est mal passé lors de l'inscription: ", response);
         return;
       }
       setNotification({

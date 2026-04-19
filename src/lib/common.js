@@ -121,10 +121,12 @@ export async function addBook(data) {
     author: data.author,
     year: data.year,
     genre: data.genre,
-    ratings: [{
-      userId,
-      grade: data.rating ? parseInt(data.rating, 10) : 0,
-    }],
+    ratings: [
+      {
+        userId,
+        grade: data.rating ? parseInt(data.rating, 10) : 0,
+      },
+    ],
     averageRating: parseInt(data.rating, 10),
   };
   const bodyFormData = new FormData();
