@@ -1,0 +1,63 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#A0522D;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="pageGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5DEB3;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#f0ebe4" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Book spine (left side) -->
+  <rect x="60" y="50" width="15" height="100" fill="#6B3410" filter="url(#shadow)"/>
+  
+  <!-- Book cover (right side) -->
+  <path d="M 75 50 L 140 50 Q 145 50 145 55 L 145 145 Q 145 150 140 150 L 75 150 Z" 
+        fill="url(#bookGradient)" filter="url(#shadow)"/>
+  
+  <!-- Pages inside -->
+  <path d="M 75 50 L 140 50 Q 145 50 145 55 L 145 145 Q 145 150 140 150 L 75 150 Z" 
+        fill="url(#pageGradient)" opacity="0.6"/>
+  
+  <!-- Decorative spine lines -->
+  <line x1="62" y1="65" x2="73" y2="65" stroke="#C19A6B" stroke-width="1" opacity="0.7"/>
+  <line x1="62" y1="80" x2="73" y2="80" stroke="#D4AF37" stroke-width="1" opacity="0.7"/>
+  <line x1="62" y1="95" x2="73" y2="95" stroke="#C19A6B" stroke-width="1" opacity="0.7"/>
+  <line x1="62" y1="110" x2="73" y2="110" stroke="#D4AF37" stroke-width="1" opacity="0.7"/>
+  <line x1="62" y1="125" x2="73" y2="125" stroke="#C19A6B" stroke-width="1" opacity="0.7"/>
+  
+  <!-- Book emblem/decoration -->
+  <g transform="translate(95, 90)">
+    <!-- Star burst in center -->
+    <circle cx="0" cy="0" r="8" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="-10" x2="0" y2="10" stroke="#D4AF37" stroke-width="1.5" opacity="0.7"/>
+    <line x1="-10" y1="0" x2="10" y2="0" stroke="#D4AF37" stroke-width="1.5" opacity="0.7"/>
+    <line x1="-7" y1="-7" x2="7" y2="7" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
+    <line x1="7" y1="-7" x2="-7" y2="7" stroke="#D4AF37" stroke-width="1" opacity="0.6"/>
+    <circle cx="0" cy="0" r="3" fill="#D4AF37" opacity="0.8"/>
+  </g>
+  
+  <!-- Ornamental corner elements -->
+  <circle cx="82" cy="58" r="2" fill="#D4AF37" opacity="0.8"/>
+  <circle cx="138" cy="58" r="2" fill="#D4AF37" opacity="0.8"/>
+  <circle cx="82" cy="142" r="2" fill="#D4AF37" opacity="0.8"/>
+  <circle cx="138" cy="142" r="2" fill="#D4AF37" opacity="0.8"/>
+  
+  <!-- Bookmark ribbon -->
+  <path d="M 130 50 Q 132 80 128 110 Q 127 130 125 150" 
+        stroke="#C41E3A" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <ellipse cx="125" cy="150" rx="3" ry="4" fill="#C41E3A" opacity="0.8"/>
+  
+  <!-- Text label below (optional) -->
+  <text x="100" y="175" font-family="Georgia, serif" font-size="14" font-weight="bold" 
+        text-anchor="middle" fill="#8B4513" opacity="0.7">MON VIEUX GRIMOIRE</text>
+</svg>
