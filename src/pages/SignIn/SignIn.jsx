@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as Logo } from '../../images/Logo.svg';
+import { ReactComponent as Logo } from '../../images/logo.svg';
 import { storeInLocalStorage } from '../../lib/common';
 import { useUser } from '../../lib/customHooks';
 import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
