@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import * as PropTypes from 'prop-types';
+import Logo from '../../images/logo.svg';
 import styles from './Header.module.css';
 
 function Header({ user, setUser }) {
@@ -13,7 +14,10 @@ function Header({ user, setUser }) {
 
   return (
     <header className={styles.Header}>
-      <div className="container">
+      <div className={styles.container}>
+        <NavLink to="/" className={styles.logoLink}>
+          <img src={Logo} alt="Mon Vieux Grimoire" className={styles.logo} />
+        </NavLink>
         <ul>
           <li>
             <NavLink

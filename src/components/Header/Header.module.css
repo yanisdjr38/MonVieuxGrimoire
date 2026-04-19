@@ -6,16 +6,26 @@
   align-items: center;
 }
 
-.Header div {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.Header img {
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logo {
   width: 60px;
   height: 60px;
-  margin-right: 20px;
 }
 
 .Header p {
@@ -24,6 +34,8 @@
 
 .Header ul {
   display: flex;
+  margin: 0;
+  padding: 0;
 }
 
 .Header ul li {
@@ -41,19 +53,24 @@
 }
 
 @media all and (max-width: 600px) {
-  .Header div {
+  .container {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
   }
 
-  .Header img {
+  .logo {
     width: 50px;
     height: 50px;
-    margin-top: 10px;
-    margin-right: 0;
+  }
+
+  .Header ul {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
   }
 
   .Header ul li {
-    padding-block: 20px;
+    padding-inline: 10px;
   }
 }
