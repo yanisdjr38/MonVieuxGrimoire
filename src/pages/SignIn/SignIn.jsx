@@ -1,19 +1,22 @@
 import axios from 'axios';
 import * as PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../images/logo.svg';
 import { storeInLocalStorage } from '../../lib/common';
 import { useUser } from '../../lib/customHooks';
-import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
+import { API_ROUTES } from '../../utils/constants';
 import styles from './SignIn.module.css';
 
 function SignIn({ setUser }) {
   const navigate = useNavigate();
-  const { user, authenticated } = useUser();
-  if (user || authenticated) {
-    navigate(APP_ROUTES.DASHBOARD);
-  }
+  const { connectedUser, auth } = useUser();
+
+  useEffect(() => {
+    if (connectedUser || auth) {
+      navigate('/');
+    }
+  }, [connectedUser, auth, navigate]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -105,7 +108,7 @@ function SignIn({ setUser }) {
   const errorClass = notification.error ? styles.Error : null;
   return (
     <div className={`${styles.SignIn} container`}>
-      <Logo />
+      <Logo className={styles.Logo} />
       <div className={`${styles.Notification} ${errorClass}`}>
         {notification.message.length > 0 && <p>{notification.message}</p>}
       </div>
@@ -145,7 +148,9 @@ function SignIn({ setUser }) {
             bg-gray-800  text-white hover:bg-gray-800"
             onClick={signIn}
           >
-            {isLoading ? <div className="" /> : null}
+            {isLoading ? (
+              <div className="mr-2 w-5 h-5 border-l-2 rounded-full animate-spin" />
+            ) : null}
             <span>Se connecter</span>
           </button>
           <span>OU</span>

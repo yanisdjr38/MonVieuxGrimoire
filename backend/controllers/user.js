@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+require('dotenv').config();
 // Créer et enregistrer un utilisateur dans la base de données
 exports.signup = (req, res) => {
   if (!req.body.email || !req.body.password) {
@@ -54,7 +55,7 @@ exports.login = (req, res) => {
             return res.status(200).json({
               // eslint-disable-next-line no-underscore-dangle
               userId: user._id,
-              token: jwt.sign({ userId: user._id }, 'RANDOM_TOKEN_SECRET', {
+              token: jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
                 expiresIn: '24h',
               }),
             });

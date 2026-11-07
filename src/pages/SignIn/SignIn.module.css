@@ -4,6 +4,19 @@
   align-items: center;
 }
 
+.Logo {
+  width: 120px;
+  height: 120px;
+  margin-top: 30px;
+}
+
+@media all and (max-width: 500px) {
+  .Logo {
+    width: 90px;
+    height: 90px;
+  }
+}
+
 .Notification {
   width: 40%;
   margin-top: 30px;
